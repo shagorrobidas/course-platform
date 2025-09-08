@@ -13,7 +13,7 @@ from .views import ModuleListView
 from .views.lesson import LessonDetailView
 from .views.progress import (
     ProgressUpdateView,
-    # student_progress_report
+    student_progress_report
 )
 
 urlpatterns = [
@@ -61,6 +61,11 @@ urlpatterns = [
         'progress/<int:pk>/',
         ProgressUpdateView.as_view(),
         name='progress-update'
+    ),
+    path(
+        '<int:course_id>/progress-report/',
+        student_progress_report,
+        name='progress-report'
     ),
 
 ]
