@@ -45,6 +45,8 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'channels',
     # 'corsheaders',
+    'django_celery_results',  # Add this
+    'django_celery_beat',     # Optional for scheduled tasks
 ]
 
 LOCAL_APPS = [

@@ -6,7 +6,7 @@ POST {{baseUrl}}/register/
 Content-Type: {{contentType}}
 
 {
-  "email": "student@example.com",
+  "email": "roysagor88@gmail.com",
   "password": "password123",
   "password_confirm": "password123",
   "first_name": "John",
@@ -33,13 +33,13 @@ POST {{baseUrl}}/login/
 Content-Type: {{contentType}}
 
 {
-  "email": "student@example.com",
-  "password": "password123"
+  "email": "roysagor88@gmail.com",
+  "password": "newpassword123"
 }
 
 ### 4. Save access token from login response
-@accessToken = {{login.response.body.access}}
-@refreshToken = {{login.response.body.refresh}}
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzU5ODcxLCJpYXQiOjE3NTczNTYyNzEsImp0aSI6IjYyNzAyYzBhZTVjZjRmYTZhMWNhZjg1YmIxNTg3YjU3IiwidXNlcl9pZCI6IjcifQ.nwPjfiaQhSp6WzIaVjgFmx8A6wO_jH5JgcR_9h6RjNw
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzQzODY1OCwiaWF0IjoxNzU3MzUyMjU4LCJqdGkiOiIwYmM3NTI2MjlhODc0NjM0YjI3OWVhOTMyYWUyZjhiMSIsInVzZXJfaWQiOiI3In0.E44Lo-nxkAbimmcRTbPchIY4X5kgPoYbLNZBXbWw3mI
 
 ### 5. Get user profile (requires authentication)
 GET {{baseUrl}}/profile/
@@ -60,8 +60,8 @@ POST {{baseUrl}}/verify-otp/
 Content-Type: {{contentType}}
 
 {
-  "email": "student@example.com",
-  "otp": "123456",
+  "email": "roysagor88@gmail.com",
+  "otp": "116512",
   "purpose": "email_verification"
 }
 
@@ -90,7 +90,7 @@ POST {{baseUrl}}/request-password-reset/
 Content-Type: {{contentType}}
 
 {
-  "email": "student@example.com"
+  "email": "roysagor88@gmail.com"
 }
 
 ### 12. Reset password using OTP
@@ -98,7 +98,7 @@ POST {{baseUrl}}/reset-password/
 Content-Type: {{contentType}}
 
 {
-  "email": "student@example.com",
+  "email": "roysagor88@gmail.com",
   "otp": "654321",
   "new_password": "newsecurepassword",
   "confirm_password": "newsecurepassword"
@@ -113,18 +113,10 @@ Content-Type: {{contentType}}
   "purpose": "login"
 }
 
-### 14. Login using OTP
-POST {{baseUrl}}/verify-otp/
-Content-Type: {{contentType}}
 
-{
-  "email": "student@example.com",
-  "otp": "789012",
-  "purpose": "login"
-}
 
 ### 15. Update user profile (requires authentication)
-PUT {{baseUrl}}/profile/
+PATCH  {{baseUrl}}/profile/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
 
