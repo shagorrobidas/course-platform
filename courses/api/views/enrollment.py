@@ -17,3 +17,12 @@ class EnrollmentCreateView(generics.CreateAPIView):
         )
 
 
+class EnrollmentListView(generics.ListAPIView):
+    serializer_class = EnrollmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Enrollment.objects.filter(
+            student=self.request.user
+        )
+
