@@ -5,6 +5,7 @@ from .views.courses import (
     CourseDetailView,
     course_analytics
 )
+from .views.enrollment import EnrollmentCreateView
 
 urlpatterns = [
     path(
@@ -26,5 +27,10 @@ urlpatterns = [
         '<int:course_id>/analytics/',
         course_analytics,
         name='course-analytics'
+    ),
+    path(
+        '<int:course_id>/enroll/',
+        EnrollmentCreateView.as_view(),
+        name='enroll'
     ),
 ]
