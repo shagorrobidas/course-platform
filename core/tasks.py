@@ -105,3 +105,20 @@ def generate_certificate(enrollment_id):
 
     except Enrollment.DoesNotExist:
         pass
+
+
+@shared_task
+def send_course_update_notification(course_id, message):
+    from channels.layers import get_channel_layer
+    from asgiref.sync import async_to_sync
+
+    channel_layer = get_channel_layer()
+
+    async_to_sync(channel_layer.group_send)(
+        f"course_{course_id}",
+        {
+            'type': 'class_update_message',
+            'message': message,
+            'course_id': course_id
+        }
+    )
