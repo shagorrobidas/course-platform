@@ -41,5 +41,11 @@ class CourseListView(generics.ListAPIView):
         return queryset
 
 
+class CourseDetailView(generics.RetrieveAPIView):
+    queryset = Course.objects.filter(is_published=True)
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+
 
 
