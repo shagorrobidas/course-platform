@@ -46,4 +46,39 @@ class ProgressUpdateView(generics.UpdateAPIView):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def student_progress_report(request, course_id):
+    try:
+        enrollment = Enrollment.objects.get(
+            student=request.user,
+            course_id=course_id
+        )
+    except Enrollment.DoesNotExist:
+        return Response(
+            {'error': 'Enrollment not found'},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
+    total_lessons = Lesson.objects.filter(
+        module__course_id=course_id
+    ).count()
+    completed_lessons = Progress.objects.filter(
+        student=request.user, 
+        lesson__module__course_id=course_id,
+        completed=True
+    ).count()
+
+    progress_percentage = (
+        completed_lessons / total_lessons * 100
+    ) if total_lessons > 0 else 0
+
+    return Response({
+        'course': enrollment.course.title,
+        'enrolled_at': enrollment.enrolled_at,
+        'completed': enrollment.completed,
+        'completed_at': enrollment.completed_at,
+        'total_lessons': total_lessons,
+        'completed_lessons': completed_lessons,
+        'progress_percentage': progress_percentage
+    })
