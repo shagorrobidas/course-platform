@@ -9,6 +9,7 @@ from .views.enrollment import (
     EnrollmentCreateView,
     EnrollmentListView
 )
+from .views import ModuleListView
 
 urlpatterns = [
     path(
@@ -40,5 +41,11 @@ urlpatterns = [
         'enrollments/',
         EnrollmentListView.as_view(),
         name='enrollment-list'
-    )
+    ),
+    path(
+        '<int:course_id>/modules/',
+        ModuleListView.as_view(),
+        name='module-list'
+    ),
+
 ]
