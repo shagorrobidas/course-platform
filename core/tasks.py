@@ -30,3 +30,21 @@ def send_welcome_email(user_id):
     except User.DoesNotExist:
         pass
 
+@shared_task
+def send_course_enrollment_email(enrollment_id):
+    try:
+        enrollment = Enrollment.objects.get(id=enrollment_id)
+        subject = f'You have enrolled in {enrollment.course.title}'
+        message = render_to_string('emails/course_enrollment.html', {
+            'user': enrollment.student,
+            'course': enrollment.course
+        })
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [enrollment.student.email],
+            fail_silently=False,
+        )
+    except Enrollment.DoesNotExist:
+        pass
