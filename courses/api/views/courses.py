@@ -47,5 +47,37 @@ class CourseDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAdminUser])
+def course_analytics(request, course_id):
+    enrollments = Enrollment.objects.filter(course_id=course_id)
+    total_enrollments = enrollments.count()
+    completed_enrollments = enrollments.filter(completed=True).count()
+    completion_rate = (completed_enrollments / total_enrollments * 100) if total_enrollments > 0 else 0
+
+    progress_data = []
+    modules = Module.objects.filter(course_id=course_id)
+
+    for module in modules:
+        module_lessons = Lesson.objects.filter(module=module)
+        module_completion = 0
+        for lesson in module_lessons:
+            lesson_progress = Progress.objects.filter(lesson=lesson, completed=True).count()
+            if lesson_progress > 0:
+                module_completion += (lesson_progress / enrollments.count() * 100) / module_lessons.count()
+        
+        progress_data.append({
+            'module': module.title,
+            'completion_rate': module_completion
+        })
+
+    return Response({
+        'total_enrollments': total_enrollments,
+        'completed_enrollments': completed_enrollments,
+        'completion_rate': completion_rate,
+        'module_progress': progress_data
+    })
+
+
 
 
