@@ -2,7 +2,8 @@ from django.urls import path
 from .views.catagory import CategoryListView
 from .views.courses import (
     CourseListView,
-    CourseDetailView
+    CourseDetailView,
+    course_analytics
 )
 
 urlpatterns = [
@@ -20,5 +21,10 @@ urlpatterns = [
         '<int:pk>/',
         CourseDetailView.as_view(),
         name='course-detail'
+    ),
+    path(
+        '<int:course_id>/analytics/',
+        course_analytics,
+        name='course-analytics'
     ),
 ]
