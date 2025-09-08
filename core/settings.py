@@ -48,6 +48,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    'api',
+    'users',
 
 ]
 
@@ -131,7 +133,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -141,7 +142,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -179,9 +180,18 @@ CELERY_TASK_SERIALIZER = 'json'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'shagorrobidasjvai@gmail.com'
+EMAIL_HOST_PASSWORD = 'cbon yomy uynv bxoq'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-app-password'
+
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Keep this for admin
+]
+
+# Email verification settings
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
