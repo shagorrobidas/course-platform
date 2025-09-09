@@ -1,9 +1,17 @@
 from django.urls import path
 from .views import (
-    RegisterView, LoginView, UserProfileView,
-    RequestOTPView, VerifyOTPView, VerifyEmailView,
-    ChangePasswordView, RequestPasswordResetView, ResetPasswordView,
-    resend_verification_email
+    RegisterView,
+    LoginView,
+    RequestOTPView,
+    VerifyOTPView,
+    VerifyEmailView,
+    ChangePasswordView,
+    RequestPasswordResetView,
+    ResetPasswordView,
+    resend_verification_email,
+    UserProfileView,
+    UserProfileUpdateView,
+
 )
 
 urlpatterns = [
@@ -56,5 +64,15 @@ urlpatterns = [
         'reset-password/',
         ResetPasswordView.as_view(),
         name='reset-password'
+    ),
+    path(
+        'profile/',
+        UserProfileView.as_view(),
+        name='profile'
+    ),
+    path(
+        'profile/update/',
+        UserProfileUpdateView.as_view(),
+        name='profile-update'
     ),
 ]
