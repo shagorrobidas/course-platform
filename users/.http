@@ -6,68 +6,68 @@ POST {{baseUrl}}/register/
 Content-Type: {{contentType}}
 
 {
-  "email": "roysagor88@gmail.com",
+  "email": "ceriy55714@dextrago.com",
   "password": "password123",
   "password_confirm": "password123",
-  "first_name": "John",
+  "first_name": "fikor",
   "last_name": "Doe",
   "role": "student"
 }
 
-### 2. Register a teacher
-POST {{baseUrl}}/register/
+### 2. Verify OTP for email verification
+POST {{baseUrl}}/verify-otp/
 Content-Type: {{contentType}}
 
 {
-  "email": "teacher@example.com",
-  "password": "password123",
-  "password_confirm": "password123",
-  "first_name": "Jane",
-  "last_name": "Smith",
-  "role": "teacher"
+  "email": "ceriy55714@dextrago.com",
+  "otp": "908611",
+  "purpose": "email_verification"
 }
 
-### 3. Login with email and password
+### 3. Request OTP for email verification
+POST {{baseUrl}}/request-otp/
+Content-Type: {{contentType}}
+
+{
+  "email": "roysagor88@gmail.com",
+  "purpose": "email_verification"
+}
+
+### 4. Request password reset OTP
+POST {{baseUrl}}/request-password-reset/
+Content-Type: {{contentType}}
+
+{
+  "email": "fikor18155@inupup.com"
+}
+
+### 5. Reset password using OTP
+POST {{baseUrl}}/reset-password/
+Content-Type: {{contentType}}
+
+{
+  "email": "fikor18155@inupup.com",
+  "otp": "996617",
+  "new_password": "newsecurepassword",
+  "confirm_password": "newsecurepassword"
+}
+
+
+### 6. Login with email and password
 # @name login
 POST {{baseUrl}}/login/
 Content-Type: {{contentType}}
 
 {
-  "email": "roysagor88@gmail.com",
-  "password": "newpassword123"
+  "email": "fikor18155@inupup.com",
+  "password": "password123"
 }
 
-### 4. Save access token from login response
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzU5ODcxLCJpYXQiOjE3NTczNTYyNzEsImp0aSI6IjYyNzAyYzBhZTVjZjRmYTZhMWNhZjg1YmIxNTg3YjU3IiwidXNlcl9pZCI6IjcifQ.nwPjfiaQhSp6WzIaVjgFmx8A6wO_jH5JgcR_9h6RjNw
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzQzODY1OCwiaWF0IjoxNzU3MzUyMjU4LCJqdGkiOiIwYmM3NTI2MjlhODc0NjM0YjI3OWVhOTMyYWUyZjhiMSIsInVzZXJfaWQiOiI3In0.E44Lo-nxkAbimmcRTbPchIY4X5kgPoYbLNZBXbWw3mI
+### 7. Refresh access token
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NDQyMDA1LCJpYXQiOjE3NTc0Mzg0MDUsImp0aSI6ImFkYmFjZGM3OWQ3NDQ1NTA4OGNmMmQxZGVhM2ZjMDZjIiwidXNlcl9pZCI6IjEwIn0.mpeqkWzALegJih-oWXkfP0lra9WZ7nokI2vVmVVthaA
 
-### 5. Get user profile (requires authentication)
-GET {{baseUrl}}/profile/
-Authorization: Bearer {{accessToken}}
-Content-Type: {{contentType}}
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzUyNDgwNSwiaWF0IjoxNzU3NDM4NDA1LCJqdGkiOiI5ZGMzMGIyNGY2OTY0YTQ3OGM2OTUwMTgxZjgwOTM3NSIsInVzZXJfaWQiOiIxMCJ9.87RcE6Lua6RZhdDPwnhpblAyoyawqtosooM0M2Hlh_o
 
-### 6. Request OTP for email verification
-POST {{baseUrl}}/request-otp/
-Content-Type: {{contentType}}
-
-{
-  "email": "student@example.com",
-  "purpose": "email_verification"
-}
-
-### 7. Verify OTP for email verification
-POST {{baseUrl}}/verify-otp/
-Content-Type: {{contentType}}
-
-{
-  "email": "roysagor88@gmail.com",
-  "otp": "116512",
-  "purpose": "email_verification"
-}
-
-### 8. Verify email using token (simulated - you'll need actual token)
-GET {{baseUrl}}/verify-email/550e8400-e29b-41d4-a716-446655440000/
-Content-Type: {{contentType}}
 
 ### 9. Resend verification email
 POST {{baseUrl}}/resend-verification/
@@ -85,38 +85,16 @@ Content-Type: {{contentType}}
   "confirm_password": "newpassword123"
 }
 
-### 11. Request password reset OTP
-POST {{baseUrl}}/request-password-reset/
+
+
+### 5. Get user profile (requires authentication)
+GET {{baseUrl}}/profile/
+Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
-
-{
-  "email": "roysagor88@gmail.com"
-}
-
-### 12. Reset password using OTP
-POST {{baseUrl}}/reset-password/
-Content-Type: {{contentType}}
-
-{
-  "email": "roysagor88@gmail.com",
-  "otp": "654321",
-  "new_password": "newsecurepassword",
-  "confirm_password": "newsecurepassword"
-}
-
-### 13. Request OTP for login (alternative login method)
-POST {{baseUrl}}/request-otp/
-Content-Type: {{contentType}}
-
-{
-  "email": "student@example.com",
-  "purpose": "login"
-}
-
 
 
 ### 15. Update user profile (requires authentication)
-PATCH  {{baseUrl}}/profile/
+PATCH  {{baseUrl}}/profile/update/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
 
@@ -127,50 +105,9 @@ Content-Type: {{contentType}}
   "date_of_birth": "1995-05-15"
 }
 
-### 16. Refresh JWT token
-POST {{baseUrl}}/token/refresh/
+### 16. Delete user profile (requires authentication)
+DELETE {{baseUrl}}/profile/delete/
+Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
 
-{
-  "refresh": "{{refreshToken}}"
-}
 
-### 17. Verify JWT token
-POST {{baseUrl}}/token/verify/
-Content-Type: {{contentType}}
-
-{
-  "token": "{{accessToken}}"
-}
-
-### 18. Test invalid login (wrong password)
-POST {{baseUrl}}/login/
-Content-Type: {{contentType}}
-
-{
-  "email": "student@example.com",
-  "password": "wrongpassword"
-}
-
-### 19. Test invalid registration (passwords don't match)
-POST {{baseUrl}}/register/
-Content-Type: {{contentType}}
-
-{
-  "email": "test@example.com",
-  "password": "password123",
-  "password_confirm": "differentpassword",
-  "first_name": "Test",
-  "last_name": "User",
-  "role": "student"
-}
-
-### 20. Test invalid OTP verification
-POST {{baseUrl}}/verify-otp/
-Content-Type: {{contentType}}
-
-{
-  "email": "student@example.com",
-  "otp": "wrongotp",
-  "purpose": "email_verification"
-}
