@@ -9,26 +9,41 @@ import os
 from io import BytesIO
 from django.core.files.base import ContentFile
 from courses.models import Enrollment
+from users.models import User
+from django.template.exceptions import TemplateDoesNotExist
+from django.utils.html import strip_tags
+import logging
+logger = logging.getLogger(__name__)
 
 
 @shared_task
 def send_welcome_email(user_id):
-    from users.models import User
     try:
         user = User.objects.get(id=user_id)
+        print("Sending welcome email...")
+        
+        html_message = render_to_string('emails/welcome_email.html', {'user': user})
+        plain_message = strip_tags(html_message)  # fallback for clients that can't render HTML
+
         subject = 'Welcome to Our Course Platform'
-        message = render_to_string('emails/welcome_email.html', {
-            'user': user
-        })
+
         send_mail(
             subject,
-            message,
+            plain_message,
             settings.DEFAULT_FROM_EMAIL,
             [user.email],
             fail_silently=False,
+            html_message=html_message,  # ✅ send HTML properly
         )
+
+        print(f"Sent welcome email to {user.email}")
+        
     except User.DoesNotExist:
-        pass
+        print(f"User with id {user_id} does not exist")
+    except TemplateDoesNotExist as e:
+        logger.error(f"Template not found: {e}")
+    except Exception as e:
+        logger.error(f"Error sending welcome email: {e}")
 
 
 @shared_task
@@ -63,27 +78,52 @@ def generate_certificate(enrollment_id):
 
         # Add background
         if os.path.exists(settings.BASE_DIR / 'static' / 'certificate_bg.png'):
-            bg = ImageReader(settings.BASE_DIR / 'static' / 'certificate_bg.png')
+            bg = ImageReader(
+                settings.BASE_DIR / 'static' / 'certificate_bg.png'
+            )
             c.drawImage(bg, 0, 0, width=width, height=height)
 
         # Add text
         c.setFont("Helvetica-Bold", 24)
-        c.drawCentredString(width/2, height/2 + 50, "Certificate of Completion")
+        c.drawCentredString(
+            width/2,
+            height/2 + 50,
+            "Certificate of Completion"
+        )
 
         c.setFont("Helvetica", 18)
-        c.drawCentredString(width/2, height/2, f"This certifies that {enrollment.student.get_full_name()}")
-        c.drawCentredString(width/2, height/2 - 30, f"has successfully completed the course")
-        c.drawCentredString(width/2, height/2 - 60, f"'{enrollment.course.title}'")
+        c.drawCentredString(
+            width/2,
+            height/2,
+            f"This certifies that {enrollment.student.get_full_name()}"
+        )
+        c.drawCentredString(
+            width/2,
+            height/2 - 30,
+            f"has successfully completed the course {enrollment.course.title}"
+        )
+        c.drawCentredString(
+            width/2,
+            height/2 - 60,
+            f"'{enrollment.course.title}'"
+        )
 
         c.setFont("Helvetica", 12)
-        c.drawCentredString(width/2, height/2 - 120, f"Completed on: {enrollment.completed_at.strftime('%B %d, %Y')}")
-        
+        c.drawCentredString(
+            width/2,
+            height/2 - 120,
+            f"Completed on: {enrollment.completed_at.strftime('%B %d, %Y')}"
+        )
+
         c.showPage()
         c.save()
 
         # Save certificate to enrollment
         certificate_file = ContentFile(buffer.getvalue())
-        enrollment.certificate.save(f'certificate_{enrollment.id}.pdf', certificate_file)
+        enrollment.certificate.save(
+            f'certificate_{enrollment.id}.pdf',
+            certificate_file
+        )
         enrollment.save()
 
         # Send email with certificate
@@ -100,7 +140,11 @@ def generate_certificate(enrollment_id):
             [enrollment.student.email],
             fail_silently=False,
             html_message=message,
-            attachments=[(f'certificate_{enrollment.id}.pdf', buffer.getvalue(), 'application/pdf')]
+            attachments=[(
+                f'certificate_{enrollment.id}.pdf',
+                buffer.getvalue(),
+                'application/pdf'
+            )]
         )
 
     except Enrollment.DoesNotExist:
