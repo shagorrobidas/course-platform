@@ -36,3 +36,19 @@ class UserProfileUpdateView(generics.UpdateAPIView):
         )
     
 
+class UserProfileDeleteView(generics.DestroyAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
+
+    def delete(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.delete()
+        return Response(
+            {
+                "success": True,
+                "message": "User profile deleted successfully"
+            },
+            status=status.HTTP_200_OK,
+        )
