@@ -27,11 +27,6 @@ urlpatterns = [
         name='login'
     ),
     path(
-        'profile/',
-        UserProfileView.as_view(),
-        name='profile'
-    ),
-    path(
         'request-otp/',
         RequestOTPView.as_view(),
         name='request-otp'
