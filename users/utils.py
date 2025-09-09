@@ -19,6 +19,7 @@ def send_otp_email(user, otp, purpose):
         'otp': otp,
         'purpose': purpose,
     }
+    print(f"Sending OTP email to {user.email} for {purpose} with OTP: {otp}")  # For debugging; remove in production
     
     message = render_to_string('emails/otp_email.html', context)
     
@@ -66,6 +67,7 @@ def create_otp(user, purpose, expiry_minutes=10):
         purpose=purpose,
         expires_at=expires_at
     )
+    print(f"Generated OTP for {user.email}: {otp}")  # For debugging; remove in production
     
     return otp_obj
 
@@ -73,6 +75,7 @@ def create_otp(user, purpose, expiry_minutes=10):
 def verify_otp(user, otp_code, purpose):
     try:
         otp_obj = OTP.objects.get(user=user, purpose=purpose, otp=otp_code)
+        print(f"Verified OTP for {user.email}: {otp_code}")  # For debugging; remove in production
         if otp_obj.is_valid():
             otp_obj.delete()  # OTP can only be used once
             return True
