@@ -6,8 +6,12 @@ from .verify_email import VerifyEmailView
 from .request_password import RequestPasswordResetView
 from .reset_password import ResetPasswordView
 from .change_password import ChangePasswordView
-from .user_profile import UserProfileView
 from .resend_verifications_email import resend_verification_email
+from .user_profile import (
+    UserProfileView,
+    UserProfileUpdateView,
+    UserProfileDeleteView
+)
 
 
 __all__ = [
@@ -19,6 +23,8 @@ __all__ = [
     RequestPasswordResetView,
     ResetPasswordView,
     ChangePasswordView,
-    UserProfileView,
     resend_verification_email,
+    UserProfileView,
+    UserProfileUpdateView,
+    UserProfileDeleteView
 ]
