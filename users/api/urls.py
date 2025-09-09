@@ -11,6 +11,7 @@ from .views import (
     resend_verification_email,
     UserProfileView,
     UserProfileUpdateView,
+    UserProfileDeleteView
 
 )
 
@@ -74,5 +75,10 @@ urlpatterns = [
         'profile/update/',
         UserProfileUpdateView.as_view(),
         name='profile-update'
+    ),
+    path(
+        'profile/delete/',
+        UserProfileDeleteView.as_view(),
+        name='profile-delete'
     ),
 ]
