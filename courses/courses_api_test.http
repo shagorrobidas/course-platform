@@ -1,0 +1,206 @@
+@baseUrl = http://localhost:8000/api/v1/course
+@loginUrl = http://localhost:8000/api/v1/auth
+@contentType = application/json
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NDY0MjAxLCJpYXQiOjE3NTc0NjA2MDEsImp0aSI6IjQ0ZWU2MjFhYjI0OTQ4OTk5MDUxNjA1ODZlNTAxZmVjIiwidXNlcl9pZCI6IjIifQ.hgo_A33Z9tuww4cb0wh6FeV0N4sPTgvYWg3jUlKag0k
+
+# @name login
+POST {{loginUrl}}/login/
+Content-Type: {{contentType}}
+
+{
+    "email": "admin@gmail.com",
+    "password": "admin"
+}
+
+### 1. Get all categories
+GET {{baseUrl}}/categories/
+Content-Type: {{contentType}}
+
+### 3. Create a new category (requires admin authentication)
+POST {{baseUrl}}/categories/create/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "name": "UIUX Design 3",
+    "description": "All programming related courses"
+
+}
+
+### 4. Update a category (requires admin authentication)
+
+PATCH {{baseUrl}}/categories/10/update/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "name": "UI/UX Design",
+    "description": "Design related courses."
+}
+
+
+### Delete a category (admin only)
+DELETE {{baseUrl}}/categories/8/delete/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+
+
+### 4. Get all courses (with optional query parameters)
+GET {{baseUrl}}/
+Content-Type: {{contentType}}
+
+### Create a new course (requires admin authentication)
+POST {{baseUrl}}/create/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}   
+
+{
+    "title": "Django for Beginners 1",
+    "description": "Learn Django from scratch",
+    "instructor": 35,
+    "price": 19.99,
+    "category": 1,
+    "level": "beginner",
+    "is_published": true
+}
+
+### 3. Get courses filtered by category
+GET {{baseUrl}}/?category=Programming
+Content-Type: {{contentType}}
+
+### 4. Get courses filtered by level
+GET {{baseUrl}}/?level=beginner
+Content-Type: {{contentType}}
+
+### 5. Search courses
+GET {{baseUrl}}/?search=python
+Content-Type: {{contentType}}
+
+### 6. Get course details
+GET {{baseUrl}}/4/detail/
+Content-Type: {{contentType}}
+
+### 7. Update course details (requires admin authentication)
+PATCH {{baseUrl}}/3/update/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Django for Beginners Updated",
+    "description": "Learn Django from scratch - Updated",
+    "price": 24.99,
+    "is_published": false
+}
+
+### 8. Delete a course (requires admin authentication)
+DELETE {{baseUrl}}/5/delete/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 7. Enroll in a course (requires authentication)
+# @name enroll
+POST {{baseUrl}}/1/enroll/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+> {%
+    client.log("Enrollment response: " + JSON.stringify(response.body));
+    client.global.set("1", response.body.id);
+%}
+
+### 8. Get user enrollments (requires authentication)
+GET {{baseUrl}}/enrollments/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 9. Get course modules (requires authentication)
+GET {{baseUrl}}/1/modules/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+> {%
+    client.log("Modules response: " + JSON.stringify(response.body));
+    if (response.body && response.body.length > 0) {
+        client.global.set("module_id", response.body[0].id);
+        client.global.set("module_title", response.body[0].title);
+    }
+%}
+
+### 10. Get lesson details (requires authentication)
+GET {{baseUrl}}/lessons/2/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+> {%
+    client.log("Lesson response: " + JSON.stringify(response.body));
+    if (response.body) {
+        client.global.set("lesson_id", response.body.id);
+        client.global.set("lesson_title", response.body.title);
+    }
+%}
+
+
+### 11. Update progress (mark lesson as completed) (requires authentication)
+# @name progressUpdate
+PATCH {{baseUrl}}/progress/1/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "completed": true
+}
+
+
+
+### 12. Get student progress report (requires authentication)
+GET {{baseUrl}}/1/progress-report/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+> {%
+    client.log("Progress report: " + JSON.stringify(response.body));
+%}
+
+### 13. Get course analytics (requires admin authentication)
+GET {{baseUrl}}/2/analytics/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+> {%
+    client.log("Course analytics: " + JSON.stringify(response.body));
+%}
+
+### 14. Test enrollment when already enrolled (should fail)
+POST {{baseUrl}}/1/enroll/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 15. Test accessing modules without enrollment (should fail)
+GET {{baseUrl}}/999/modules/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 16. Test accessing lesson without enrollment (should fail)
+GET {{baseUrl}}/lessons/999/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 17. Test progress update for unauthorized lesson (should fail)
+PUT {{baseUrl}}/progress/2/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "completed": true
+}
+
+### 18. Test progress report for non-enrolled course (should fail)
+GET {{baseUrl}}/2/progress-report/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 19. Test analytics without admin privileges (should fail)
+GET {{baseUrl}}/1/analytics/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
