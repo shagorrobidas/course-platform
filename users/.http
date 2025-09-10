@@ -6,12 +6,12 @@ POST {{baseUrl}}/register/
 Content-Type: {{contentType}}
 
 {
-  "email": "ceriy55714@dextrago.com",
+  "email": "teacher@example.com",
   "password": "password123",
   "password_confirm": "password123",
-  "first_name": "fikor",
-  "last_name": "Doe",
-  "role": "student"
+  "first_name": "Jane",
+  "last_name": "Smith",
+  "role": "teacher"
 }
 
 ### 2. Verify OTP for email verification
@@ -19,8 +19,8 @@ POST {{baseUrl}}/verify-otp/
 Content-Type: {{contentType}}
 
 {
-  "email": "ceriy55714@dextrago.com",
-  "otp": "908611",
+  "email": "teacher@example.com",
+  "otp": "182918",
   "purpose": "email_verification"
 }
 
@@ -59,8 +59,8 @@ POST {{baseUrl}}/login/
 Content-Type: {{contentType}}
 
 {
-  "email": "fikor18155@inupup.com",
-  "password": "password123"
+  "email": "admin@gmail.com",
+  "password": "admin"
 }
 
 ### 7. Refresh access token
