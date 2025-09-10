@@ -62,7 +62,8 @@ class Enrollment(models.Model):
     student = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='enrollments'
+        related_name='enrollments',
+        limit_choices_to={'role': 'student'}
     )
     course = models.ForeignKey(
         Course,
@@ -135,7 +136,8 @@ class Progress(models.Model):
     student = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='progress'
+        related_name='progress',
+        limit_choices_to={'role': 'student'}
     )
     lesson = models.ForeignKey(
         Lesson,
