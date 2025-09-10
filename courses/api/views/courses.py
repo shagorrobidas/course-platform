@@ -11,6 +11,7 @@ from courses.models import (
     Course
 )
 from courses.api.serializers import CourseSerializer
+from courses.permissions import IsTeacherOrAdmin
 
 
 class CourseListView(generics.ListAPIView):
@@ -44,7 +45,7 @@ class CourseListView(generics.ListAPIView):
 
 class CourseCreateView(generics.CreateAPIView):
     serializer_class = CourseSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsTeacherOrAdmin]
     queryset = Course.objects.all()
 
     def create(self, request, *args, **kwargs):
@@ -67,7 +68,7 @@ class CourseDetailView(generics.RetrieveAPIView):
 class CourseUpdateView(generics.UpdateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsTeacherOrAdmin]
 
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
