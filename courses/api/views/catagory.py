@@ -3,6 +3,7 @@ from courses.models import Category
 from courses.api.serializers import CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
+from courses.permissions import IsTeacherOrAdmin
 
 
 class CategoryListView(generics.ListAPIView):
@@ -14,7 +15,7 @@ class CategoryListView(generics.ListAPIView):
 class CategoryCreateView(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsTeacherOrAdmin]
 
     def create(self, request, *args, **kwargs):
         name = request.data.get('name', '').strip()
@@ -42,7 +43,7 @@ class CategoryCreateView(generics.CreateAPIView):
 class CategoryUpdateView(generics.UpdateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsTeacherOrAdmin]
 
     def update(self, request, *args, **kwargs):
         name = request.data.get('name', '').strip()
