@@ -14,15 +14,15 @@ class ProgressUpdateView(generics.UpdateAPIView):
     def get_queryset(self):
         user = self.request.user
         return Progress.objects.filter(student=user)
-    
+
     def patch(self, request, *args, **kwargs):
         # Handle partial updates with PATCH
         return self.partial_update(request, *args, **kwargs)
-    
+
     def put(self, request, *args, **kwargs):
         # Handle full updates with PUT
         return self.update(request, *args, **kwargs)
-    
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.completed = request.data.get('completed', instance.completed)
