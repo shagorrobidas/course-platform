@@ -1,7 +1,15 @@
-from .catagory import CategoryListView
+from .catagory import (
+    CategoryListView,
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView
+)
 from .courses import (
     CourseListView,
+    CourseCreateView,
     CourseDetailView,
+    CourseUpdateView,
+    CourseDeleteView,
     course_analytics
 )
 from .enrollment import (
@@ -18,8 +26,14 @@ from .progress import (
 
 __all__ = (
     CategoryListView,
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView,
     CourseListView,
+    CourseCreateView,
     CourseDetailView,
+    CourseUpdateView,
+    CourseDeleteView,
     course_analytics,
     EnrollmentCreateView,
     EnrollmentListView,
