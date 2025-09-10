@@ -1,15 +1,25 @@
 @baseUrl = http://localhost:8000/api/v1/course
 @loginUrl = http://localhost:8000/api/v1/auth
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NTI4NTE5LCJpYXQiOjE3NTc1MjQ5MTksImp0aSI6ImQwODE2NGM0Mjk2MDQ0MzY5YWNlZDkwYTQwYTZmNmMzIiwidXNlcl9pZCI6IjIifQ.Ht6qujfKmK2ahI_vuvUScJXz6DIWqI7_k4hYZR-NNjE
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NTQwOTM3LCJpYXQiOjE3NTc1MzczMzcsImp0aSI6IjY5N2ZjNTViNGJiZTQ1YzY4YzRhZDcyYjA3OTk3Mjk4IiwidXNlcl9pZCI6IjI4In0.EuCP3S9HQr450ri6OFPcLefKR5JOOvAFdqF6KJ2oLQQ
 
 # @name login
 POST {{loginUrl}}/login/
 Content-Type: {{contentType}}
 
+
+
+# {
+#     "email": "vetejof231@dpwev.com",
+#     "password": "password123"
+# }
+# {
+#     "email": "teacher@example.com",
+#     "password": "password123"
+# }
 {
-    "email": "admin@gmail.com",
-    "password": "admin"
+    "email": "liwor62759@dextrago.com",
+    "password": "password123"
 }
 
 ### 1. Get all categories
@@ -114,7 +124,8 @@ GET {{baseUrl}}/enrollments/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
-### 9. Get course modules (requires authentication)
+### 9. Get course modules (requires authentication)import json
+
 GET {{baseUrl}}/1/modules/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
