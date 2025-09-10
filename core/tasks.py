@@ -120,10 +120,10 @@ def generate_certificate(enrollment_id):
 
         # Save certificate to enrollment
         certificate_file = ContentFile(buffer.getvalue())
-        enrollment.certificate.save(
-            f'certificate_{enrollment.id}.pdf',
-            certificate_file
-        )
+        # enrollment.certificate.save(
+        #     f'certificate_{enrollment.id}.pdf',
+        #     certificate_file
+        # )
         enrollment.save()
 
         # Send email with certificate
