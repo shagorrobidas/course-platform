@@ -167,7 +167,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         # Save notification to database
         notification = await self.save_notification(self.user.id, event['message'])
         if notification:
-            print(f"Sending notification to user {self.user.id}: {event['message']}")
+            print(f"Sending notification to user {self.user.first_name}: {event['message']}")
             await self.send(text_data=json.dumps({
                 'type': 'notification',
                 'message': event['message'],
@@ -234,8 +234,6 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     def get_course_teachers(self, course_id):
         try:
             course = Course.objects.get(id=course_id)
-            # return list(course.objects.filter(instructor__role='teacher').values_list('id', flat=True))
-            # Get the instructor if their role is 'teacher'
             if course.instructor.role == 'teacher':
                 return [course.instructor.id]
             return []
