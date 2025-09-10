@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DJANGO_APPS = [
+    'channels',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +45,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'channels',
     # 'corsheaders',
     'django_celery_results',  # Add this
     'django_celery_beat',     # Optional for scheduled tasks
@@ -53,6 +54,7 @@ LOCAL_APPS = [
     'api',
     'users',
     'courses',
+    'notifications',
 
 ]
 
@@ -86,7 +88,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
 
 
 # Database
