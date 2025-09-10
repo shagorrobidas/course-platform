@@ -1,8 +1,16 @@
 from django.urls import path
-from .views.catagory import CategoryListView
+from .views.catagory import (
+    CategoryListView,
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView
+)
 from .views.courses import (
     CourseListView,
+    CourseCreateView,
     CourseDetailView,
+    CourseUpdateView,
+    CourseDeleteView,
     course_analytics
 )
 from .views.enrollment import (
@@ -23,14 +31,45 @@ urlpatterns = [
         name='category-list'
     ),
     path(
+        'categories/create/',
+        CategoryCreateView.as_view(),
+        name='category-create'
+    ),
+    path(
+        'categories/<int:pk>/update/',
+        CategoryUpdateView.as_view(),
+        name='category-update'
+    ),
+    
+    path(
+        'categories/<int:pk>/delete/',
+        CategoryDeleteView.as_view(),
+        name='category-delete'
+    ),
+    path(
         '',
         CourseListView.as_view(),
         name='course-list'
     ),
     path(
-        '<int:pk>/',
+        'create/',
+        CourseCreateView.as_view(),
+        name='course-create'
+    ),
+    path(
+        '<int:pk>/detail/',
         CourseDetailView.as_view(),
         name='course-detail'
+    ),
+    path(
+        '<int:pk>/update/',
+        CourseUpdateView.as_view(),
+        name='course-update'
+    ),
+    path(
+        '<int:pk>/delete/',
+        CourseDeleteView.as_view(),
+        name='course-delete'
     ),
     path(
         '<int:course_id>/analytics/',
@@ -67,5 +106,4 @@ urlpatterns = [
         student_progress_report,
         name='progress-report'
     ),
-
 ]
