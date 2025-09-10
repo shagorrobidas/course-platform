@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:8000/api/v1/course
 @loginUrl = http://localhost:8000/api/v1/auth
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NDY0MjAxLCJpYXQiOjE3NTc0NjA2MDEsImp0aSI6IjQ0ZWU2MjFhYjI0OTQ4OTk5MDUxNjA1ODZlNTAxZmVjIiwidXNlcl9pZCI6IjIifQ.hgo_A33Z9tuww4cb0wh6FeV0N4sPTgvYWg3jUlKag0k
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NTI4NTE5LCJpYXQiOjE3NTc1MjQ5MTksImp0aSI6ImQwODE2NGM0Mjk2MDQ0MzY5YWNlZDkwYTQwYTZmNmMzIiwidXNlcl9pZCI6IjIifQ.Ht6qujfKmK2ahI_vuvUScJXz6DIWqI7_k4hYZR-NNjE
 
 # @name login
 POST {{loginUrl}}/login/
@@ -22,7 +22,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
 {
-    "name": "UIUX Design 3",
+    "name": "Devops Course",
     "description": "All programming related courses"
 
 }
