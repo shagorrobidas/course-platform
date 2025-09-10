@@ -81,7 +81,7 @@ class Enrollment(models.Model):
         unique_together = ('student', 'course')
 
     def __str__(self):
-        return f"{self.student.username} - {self.course.title}"
+        return f"{self.student} - {self.course.title}"
 
 
 class Module(models.Model):
@@ -155,4 +155,4 @@ class Progress(models.Model):
         unique_together = ('student', 'lesson')
 
     def __str__(self):
-        return f"{self.student.username} - {self.lesson.title}"
+        return f"{self.student} - {self.lesson.title}"
