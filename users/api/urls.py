@@ -29,37 +29,37 @@ urlpatterns = [
     path(
         'request-otp/',
         RequestOTPView.as_view(),
-        name='request-otp'
+        name='request_otp'
     ),
     path(
         'verify-otp/',
         VerifyOTPView.as_view(),
-        name='verify-otp'
+        name='verify_otp'
     ),
     path(
         'verify-email/<uuid:token>/',
         VerifyEmailView.as_view(),
-        name='verify-email'
+        name='verify_email'
     ),
     path(
         'resend-verification/',
         resend_verification_email,
-        name='resend-verification'
+        name='resend_verification'
     ),
     path(
         'change-password/',
         ChangePasswordView.as_view(),
-        name='change-password'
+        name='change_password'
     ),
     path(
         'request-password-reset/',
         RequestPasswordResetView.as_view(),
-        name='request-password-reset'
+        name='request_password-reset'
     ),
     path(
-        'reset-password/',
+        'confirm-reset-password/',
         ResetPasswordView.as_view(),
-        name='reset-password'
+        name='confirm_reset_password'
     ),
     path(
         'profile/',
@@ -69,11 +69,11 @@ urlpatterns = [
     path(
         'profile/update/',
         UserProfileUpdateView.as_view(),
-        name='profile-update'
+        name='profile_update'
     ),
     path(
         'profile/delete/',
         UserProfileDeleteView.as_view(),
-        name='profile-delete'
+        name='profile_delete'
     ),
 ]

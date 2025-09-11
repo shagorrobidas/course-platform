@@ -12,26 +12,26 @@ from django.conf import settings
 @permission_classes([permissions.IsAuthenticated])
 def resend_verification_email(request):
     user = request.user
-    
+
     if user.is_email_verified:
         return Response(
             {'error': 'Email is already verified'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
+
     # Delete any existing verification tokens
     EmailVerification.objects.filter(user=user).delete()
-    
+
     # Create new verification token
     token = uuid.uuid4()
     expires_at = timezone.now() + timedelta(hours=24)
-    
+
     EmailVerification.objects.create(
         user=user,
         token=token,
         expires_at=expires_at
     )
-    
+
     # Send verification email
     verification_url = f"{settings.FRONTEND_URL}/verify-email/{token}/"
     from users.tasks import send_verification_email_task

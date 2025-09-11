@@ -42,7 +42,7 @@ Content-Type: {{contentType}}
 }
 
 ### 5. Reset password using OTP
-POST {{baseUrl}}/reset-password/
+POST {{baseUrl}}/confirm-reset-password/
 Content-Type: {{contentType}}
 
 {
@@ -63,18 +63,18 @@ Content-Type: {{contentType}}
   "password": "admin"
 }
 
-### 7. Refresh access token
+### . Refresh access token
 @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NDQyMDA1LCJpYXQiOjE3NTc0Mzg0MDUsImp0aSI6ImFkYmFjZGM3OWQ3NDQ1NTA4OGNmMmQxZGVhM2ZjMDZjIiwidXNlcl9pZCI6IjEwIn0.mpeqkWzALegJih-oWXkfP0lra9WZ7nokI2vVmVVthaA
 
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzUyNDgwNSwiaWF0IjoxNzU3NDM4NDA1LCJqdGkiOiI5ZGMzMGIyNGY2OTY0YTQ3OGM2OTUwMTgxZjgwOTM3NSIsInVzZXJfaWQiOiIxMCJ9.87RcE6Lua6RZhdDPwnhpblAyoyawqtosooM0M2Hlh_o
 
 
-### 9. Resend verification email
+### 7. Resend verification email
 POST {{baseUrl}}/resend-verification/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
 
-### 10. Change password (requires authentication)
+### 8. Change password (requires authentication)
 POST {{baseUrl}}/change-password/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
@@ -87,13 +87,13 @@ Content-Type: {{contentType}}
 
 
 
-### 5. Get user profile (requires authentication)
+### 9. Get user profile (requires authentication)
 GET {{baseUrl}}/profile/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
 
 
-### 15. Update user profile (requires authentication)
+### 10. Update user profile (requires authentication)
 PATCH  {{baseUrl}}/profile/update/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
@@ -105,7 +105,7 @@ Content-Type: {{contentType}}
   "date_of_birth": "1995-05-15"
 }
 
-### 16. Delete user profile (requires authentication)
+### 11. Delete user profile (requires authentication)
 DELETE {{baseUrl}}/profile/delete/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
