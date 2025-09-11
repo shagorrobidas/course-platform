@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Course Enrollment Confirmation</h2>
+    
+    <p>Hello {{ user.first_name }},</p>
+    
+    <p>You have successfully enrolled in: <strong>{{ course.title }}</strong></p>
+    
+    <p><strong>Instructor:</strong> {{ course.instructor.first_name }}</p>
+    
+    <p>Start learning now: <a href="{{ site_url }}/courses/{{ course.id }}/">
+        {{ site_url }}/courses/{{ course.id }}/
+    </a></p>
+    
+    <p>Happy learning!<br>
+    The {{ site_name }} Team</p>
+    
+    <hr>
+    <p><small>© {{ current_year }} {{ site_name }}</small></p>
+</body>
+</html>

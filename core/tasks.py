@@ -12,6 +12,7 @@ from courses.models import Enrollment
 from users.models import User
 from django.template.exceptions import TemplateDoesNotExist
 from django.utils.html import strip_tags
+from django.utils import timezone
 import logging
 logger = logging.getLogger(__name__)
 
@@ -49,21 +50,57 @@ def send_welcome_email(user_id):
 @shared_task
 def send_course_enrollment_email(enrollment_id):
     try:
-        enrollment = Enrollment.objects.get(id=enrollment_id)
+        enrollment = Enrollment.objects.select_related(
+            'student', 'course', 'course__instructor', 'course__category'
+        ).get(id=enrollment_id)
+        
         subject = f'You have enrolled in {enrollment.course.title}'
-        message = render_to_string('emails/course_enrollment.html', {
+        current_year = timezone.now().year
+        
+        context = {
             'user': enrollment.student,
-            'course': enrollment.course
-        })
+            'course': enrollment.course,
+            'site_name': 'Course Platform',
+            'site_url': 'http://localhost:8000',
+            'current_year': current_year
+        }
+        
+        # Render HTML message
+        html_message = render_to_string(
+            'emails/course_enrollment.html', context)
+        
+        # Plain text version
+        plain_message = f"""
+Course Enrollment Confirmation
+
+Hello {enrollment.student.first_name},
+
+You have successfully enrolled in: {enrollment.course.title}
+
+Instructor: {enrollment.course.instructor.first_name}
+Level: {enrollment.course.title}
+
+Start learning now: http://localhost:8000/courses/{enrollment.course.id}/
+
+Happy learning!
+The Course Platform Team
+"""
+        
         send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [enrollment.student.email],
+            subject=subject,
+            message=plain_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[enrollment.student.email],
             fail_silently=False,
+            html_message=html_message
         )
+        
+        print(f"Email sent to {enrollment.student.email}")
+        
     except Enrollment.DoesNotExist:
-        pass
+        print(f"Enrollment {enrollment_id} not found")
+    except Exception as e:
+        print(f"Error sending email: {e}")
 
 
 @shared_task

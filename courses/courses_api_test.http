@@ -1,37 +1,38 @@
 @baseUrl = http://localhost:8000/api/v1/course
 @loginUrl = http://localhost:8000/api/v1/auth
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjIzMDQxLCJpYXQiOjE3NTc2MTk0NDEsImp0aSI6IjkyMmIzYTYyMzBhZjRkNDg4ZjUxZTVkMjlhZGEzYzk2IiwidXNlcl9pZCI6IjI4In0.FHWbE3e3ZfNRJn640ckUQmcWl4hOar0gzGJ_dsRxJKU
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjM0NjEzLCJpYXQiOjE3NTc2MzEwMTMsImp0aSI6IjEzNzk5ZTk3YzEzOTRkYmViYTcyZjhkNjk2MjhlNDZkIiwidXNlcl9pZCI6IjM5In0.IQAunMc7TEnu9khonUNa5qRhyVHwQG59ASK5-v7OlOg
 
 # @name login
 POST {{loginUrl}}/login/
 Content-Type: {{contentType}}
 
-
+# {
+#     "email": "teacher@example.com",
+#     "password": "password123"
+# }
 
 # {
 #     "email": "vetejof231@dpwev.com",
 #     "password": "password123"
 # }
-# {
-#     "email": "teacher@example.com",
-#     "password": "password123"
-# }
+
 {
     "email": "liwor62759@dextrago.com",
     "password": "password123"
 }
+
 
 ### 1. Get all categories
 GET {{baseUrl}}/categories/
 Content-Type: {{contentType}}
 
 ### 2. Get category details
-GET {{baseUrl}}/category-detail/1/
+GET {{baseUrl}}/category/detail/1/
 Content-Type: {{contentType}}
 
 ### 3. Create a new category (requires admin authentication)
-POST {{baseUrl}}/categories/create/
+POST {{baseUrl}}/category/create/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
@@ -43,7 +44,7 @@ Content-Type: {{contentType}}
 
 ### 4. Update a category (requires admin authentication)
 
-PATCH {{baseUrl}}/categories/10/update/
+PATCH {{baseUrl}}/category/10/update/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
@@ -54,7 +55,7 @@ Content-Type: {{contentType}}
 
 
 ### Delete a category (admin only)
-DELETE {{baseUrl}}/categories/8/delete/
+DELETE {{baseUrl}}/category/8/delete/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
@@ -114,14 +115,16 @@ Content-Type: {{contentType}}
 
 ### 7. Enroll in a course (requires authentication)
 # @name enroll
-POST {{baseUrl}}/1/enroll/
+POST {{baseUrl}}/2/enroll/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
-> {%
-    client.log("Enrollment response: " + JSON.stringify(response.body));
-    client.global.set("1", response.body.id);
-%}
+
+{
+    "student": 39,
+    "course": 7
+}
+
 
 ### 8. Get user enrollments (requires authentication)
 GET {{baseUrl}}/enrollments/

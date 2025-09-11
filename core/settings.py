@@ -152,6 +152,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 APPEND_SLASH = False
 
+
+# settings.py
+SITE_NAME = "Course Platform"
+SITE_URL = "127.0.0.1:8000"  # Or your actual domain
+DEFAULT_FROM_EMAIL = "noreply@yourdomain.com"
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
