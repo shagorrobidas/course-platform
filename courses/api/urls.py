@@ -32,23 +32,23 @@ urlpatterns = [
         name='category_list'
     ),
     path(
-        'category-detail/<int:pk>/',
+        'category/detail/<int:pk>/',
         CatagoryDetailView.as_view(),
         name='category_detail'
     ),
     path(
-        'categories/create/',
+        'category/create/',
         CategoryCreateView.as_view(),
         name='category_create'
     ),
     path(
-        'categories/<int:pk>/update/',
+        'category/<int:pk>/update/',
         CategoryUpdateView.as_view(),
         name='category_update'
     ),
     
     path(
-        'categories/<int:pk>/delete/',
+        'category/<int:pk>/delete/',
         CategoryDeleteView.as_view(),
         name='category_delete'
     ),
