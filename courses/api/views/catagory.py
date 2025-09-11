@@ -12,6 +12,12 @@ class CategoryListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class CatagoryDetailView(generics.RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+
 class CategoryCreateView(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

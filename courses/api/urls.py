@@ -3,7 +3,8 @@ from .views.catagory import (
     CategoryListView,
     CategoryCreateView,
     CategoryUpdateView,
-    CategoryDeleteView
+    CategoryDeleteView,
+    CatagoryDetailView
 )
 from .views.courses import (
     CourseListView,
@@ -28,53 +29,58 @@ urlpatterns = [
     path(
         'categories/',
         CategoryListView.as_view(),
-        name='category-list'
+        name='category_list'
+    ),
+    path(
+        'category-detail/<int:pk>/',
+        CatagoryDetailView.as_view(),
+        name='category_detail'
     ),
     path(
         'categories/create/',
         CategoryCreateView.as_view(),
-        name='category-create'
+        name='category_create'
     ),
     path(
         'categories/<int:pk>/update/',
         CategoryUpdateView.as_view(),
-        name='category-update'
+        name='category_update'
     ),
     
     path(
         'categories/<int:pk>/delete/',
         CategoryDeleteView.as_view(),
-        name='category-delete'
+        name='category_delete'
     ),
     path(
         '',
         CourseListView.as_view(),
-        name='course-list'
+        name='course_list'
     ),
     path(
         'create/',
         CourseCreateView.as_view(),
-        name='course-create'
+        name='course_create'
     ),
     path(
         '<int:pk>/detail/',
         CourseDetailView.as_view(),
-        name='course-detail'
+        name='course_detail'
     ),
     path(
         '<int:pk>/update/',
         CourseUpdateView.as_view(),
-        name='course-update'
+        name='course_update'
     ),
     path(
         '<int:pk>/delete/',
         CourseDeleteView.as_view(),
-        name='course-delete'
+        name='course_delete'
     ),
     path(
         '<int:course_id>/analytics/',
         course_analytics,
-        name='course-analytics'
+        name='course_analytics'
     ),
     path(
         '<int:course_id>/enroll/',
@@ -84,26 +90,26 @@ urlpatterns = [
     path(
         'enrollments/',
         EnrollmentListView.as_view(),
-        name='enrollment-list'
+        name='enrollment_list'
     ),
     path(
         '<int:course_id>/modules/',
         ModuleListView.as_view(),
-        name='module-list'
+        name='module_list'
     ),
     path(
         'lessons/<int:pk>/',
         LessonDetailView.as_view(),
-        name='lesson-detail'
+        name='lesson_detail'
     ),
     path(
         'progress/<int:pk>/',
         ProgressUpdateView.as_view(),
-        name='progress-update'
+        name='progress_update'
     ),
     path(
         '<int:course_id>/progress-report/',
         student_progress_report,
-        name='progress-report'
+        name='progress_report'
     ),
 ]

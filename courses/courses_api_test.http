@@ -26,6 +26,10 @@ Content-Type: {{contentType}}
 GET {{baseUrl}}/categories/
 Content-Type: {{contentType}}
 
+### 2. Get category details
+GET {{baseUrl}}/category-detail/1/
+Content-Type: {{contentType}}
+
 ### 3. Create a new category (requires admin authentication)
 POST {{baseUrl}}/categories/create/
 Authorization: Bearer {{authToken}}

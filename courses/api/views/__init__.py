@@ -2,7 +2,8 @@ from .catagory import (
     CategoryListView,
     CategoryCreateView,
     CategoryUpdateView,
-    CategoryDeleteView
+    CategoryDeleteView,
+    CatagoryDetailView
 )
 from .courses import (
     CourseListView,
@@ -29,6 +30,7 @@ __all__ = (
     CategoryCreateView,
     CategoryUpdateView,
     CategoryDeleteView,
+    CatagoryDetailView,
     CourseListView,
     CourseCreateView,
     CourseDetailView,
