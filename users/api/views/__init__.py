@@ -12,6 +12,7 @@ from .user_profile import (
     UserProfileUpdateView,
     UserProfileDeleteView
 )
+from .logout import LogoutView
 
 
 __all__ = [
@@ -26,5 +27,6 @@ __all__ = [
     resend_verification_email,
     UserProfileView,
     UserProfileUpdateView,
-    UserProfileDeleteView
+    UserProfileDeleteView,
+    LogoutView
 ]

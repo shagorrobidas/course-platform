@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:8000/api/v1/course
 @loginUrl = http://localhost:8000/api/v1/auth
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NTQwOTM3LCJpYXQiOjE3NTc1MzczMzcsImp0aSI6IjY5N2ZjNTViNGJiZTQ1YzY4YzRhZDcyYjA3OTk3Mjk4IiwidXNlcl9pZCI6IjI4In0.EuCP3S9HQr450ri6OFPcLefKR5JOOvAFdqF6KJ2oLQQ
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjIzMDQxLCJpYXQiOjE3NTc2MTk0NDEsImp0aSI6IjkyMmIzYTYyMzBhZjRkNDg4ZjUxZTVkMjlhZGEzYzk2IiwidXNlcl9pZCI6IjI4In0.FHWbE3e3ZfNRJn640ckUQmcWl4hOar0gzGJ_dsRxJKU
 
 # @name login
 POST {{loginUrl}}/login/
@@ -186,6 +186,10 @@ Content-Type: {{contentType}}
 POST {{baseUrl}}/1/enroll/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
+
+{
+    "student": 28,
+    "course": 1
 
 ### 15. Test accessing modules without enrollment (should fail)
 GET {{baseUrl}}/999/modules/

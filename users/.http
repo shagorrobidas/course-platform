@@ -64,9 +64,9 @@ Content-Type: {{contentType}}
 }
 
 ### . Refresh access token
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NDQyMDA1LCJpYXQiOjE3NTc0Mzg0MDUsImp0aSI6ImFkYmFjZGM3OWQ3NDQ1NTA4OGNmMmQxZGVhM2ZjMDZjIiwidXNlcl9pZCI6IjEwIn0.mpeqkWzALegJih-oWXkfP0lra9WZ7nokI2vVmVVthaA
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjI0ODI0LCJpYXQiOjE3NTc2MjEyMjQsImp0aSI6ImI3MGE2ZGZjODk0OTQzNTBiN2E2MzdjM2JmZDA2YTlhIiwidXNlcl9pZCI6IjIifQ.n4owe_xmqUHpAykAn6XNUzUWcnES0BHgChl_yp8vuac
 
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzUyNDgwNSwiaWF0IjoxNzU3NDM4NDA1LCJqdGkiOiI5ZGMzMGIyNGY2OTY0YTQ3OGM2OTUwMTgxZjgwOTM3NSIsInVzZXJfaWQiOiIxMCJ9.87RcE6Lua6RZhdDPwnhpblAyoyawqtosooM0M2Hlh_o
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzcwNzYyNCwiaWF0IjoxNzU3NjIxMjI0LCJqdGkiOiJkM2YxMmExMzI0OWU0ZGUwYWJmNzM5ZDY2NmM4NzQ3NyIsInVzZXJfaWQiOiIyIn0.X7o4borQ-N9eA9bThat8Yl141KB4UZdt7A7pzvFHfpo
 
 
 ### 7. Resend verification email
@@ -109,5 +109,17 @@ Content-Type: {{contentType}}
 DELETE {{baseUrl}}/profile/delete/
 Authorization: Bearer {{accessToken}}
 Content-Type: {{contentType}}
+
+
+### 3. Logout using refresh token
+# @name logout
+POST {{baseUrl}}/logout/
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "refresh": "{{refreshToken}}"
+}
+
 
 

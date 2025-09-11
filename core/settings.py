@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     # 'corsheaders',
     'django_celery_results',  # Add this
     'django_celery_beat',     # Optional for scheduled tasks
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 LOCAL_APPS = [

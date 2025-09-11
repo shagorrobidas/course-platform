@@ -10,6 +10,7 @@ from .reset_password import (
     ResetPasswordSerializer,
     ResetPasswordConfirmSerializer
 )
+from .logout import LogoutSerializer
 
 
 __all__ = [
@@ -20,5 +21,6 @@ __all__ = [
     OTPVerificationSerializer,
     ChangePasswordSerializer,
     ResetPasswordSerializer,
-    ResetPasswordConfirmSerializer
+    ResetPasswordConfirmSerializer,
+    LogoutSerializer
 ]
