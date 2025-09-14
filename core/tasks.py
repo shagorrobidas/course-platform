@@ -23,7 +23,9 @@ def send_welcome_email(user_id):
         user = User.objects.get(id=user_id)
         print("Sending welcome email...")
         
-        html_message = render_to_string('emails/welcome_email.html', {'user': user})
+        html_message = render_to_string(
+            'emails/welcome_email.html', {'user': user}
+        )
         plain_message = strip_tags(html_message)  # fallback for clients that can't render HTML
 
         subject = 'Welcome to Our Course Platform'
@@ -61,7 +63,7 @@ def send_course_enrollment_email(enrollment_id):
             'user': enrollment.student,
             'course': enrollment.course,
             'site_name': 'Course Platform',
-            'site_url': 'http://localhost:8000',
+            'site_url': 'http://10.10.10.10:8000',
             'current_year': current_year
         }
         
@@ -80,7 +82,8 @@ You have successfully enrolled in: {enrollment.course.title}
 Instructor: {enrollment.course.instructor.first_name}
 Level: {enrollment.course.title}
 
-Start learning now: http://localhost:8000/courses/{enrollment.course.id}/
+Start learning now: http://127.0.0.1:8000/api/v1/course/{enrollment.course.id}/detail/
+sent to your email. massage
 
 Happy learning!
 The Course Platform Team
@@ -107,64 +110,49 @@ The Course Platform Team
 def generate_certificate(enrollment_id):
     try:
         enrollment = Enrollment.objects.get(id=enrollment_id)
+        print(f"Generating certificate for enrollment: {enrollment}")
 
-        # Create PDF certificate
+        # Create PDF buffer
         buffer = BytesIO()
         c = canvas.Canvas(buffer, pagesize=letter)
         width, height = letter
 
-        # Add background
-        if os.path.exists(settings.BASE_DIR / 'static' / 'certificate_bg.png'):
-            bg = ImageReader(
-                settings.BASE_DIR / 'static' / 'certificate_bg.png'
-            )
+        # Add background if exists
+        bg_path = settings.BASE_DIR / 'static' / 'certificate_bg.png'
+        if os.path.exists(bg_path):
+            bg = ImageReader(bg_path)
             c.drawImage(bg, 0, 0, width=width, height=height)
 
-        # Add text
+        # Add certificate text
         c.setFont("Helvetica-Bold", 24)
-        c.drawCentredString(
-            width/2,
-            height/2 + 50,
-            "Certificate of Completion"
-        )
+        c.drawCentredString(width/2, height/2 + 50, "Certificate of Completion")
 
         c.setFont("Helvetica", 18)
-        c.drawCentredString(
-            width/2,
-            height/2,
-            f"This certifies that {enrollment.student.get_full_name()}"
-        )
-        c.drawCentredString(
-            width/2,
-            height/2 - 30,
-            f"has successfully completed the course {enrollment.course.title}"
-        )
-        c.drawCentredString(
-            width/2,
-            height/2 - 60,
-            f"'{enrollment.course.title}'"
-        )
+        full_name = enrollment.student.get_full_name()
+        course_title = enrollment.course.title
+
+        c.drawCentredString(width/2, height/2, f"This certifies that {full_name}")
+        c.drawCentredString(width/2, height/2 - 30, f"has successfully completed the course")
+        c.drawCentredString(width/2, height/2 - 60, f"'{course_title}'")
 
         c.setFont("Helvetica", 12)
-        c.drawCentredString(
-            width/2,
-            height/2 - 120,
-            f"Completed on: {enrollment.completed_at.strftime('%B %d, %Y')}"
-        )
+        completed_date = enrollment.completed_at.strftime('%B %d, %Y') if enrollment.completed_at else "N/A"
+        c.drawCentredString(width/2, height/2 - 120, f"Completed on: {completed_date}")
 
         c.showPage()
         c.save()
 
         # Save certificate to enrollment
         certificate_file = ContentFile(buffer.getvalue())
-        # enrollment.certificate.save(
-        #     f'certificate_{enrollment.id}.pdf',
-        #     certificate_file
-        # )
-        enrollment.save()
+        enrollment.certificate.save(
+            f'certificate_{enrollment.id}.pdf',
+            certificate_file,
+            save=True
+        )
+        print(f"Certificate saved for enrollment {enrollment.id}")
 
         # Send email with certificate
-        subject = f'Certificate for {enrollment.course.title}'
+        subject = f'Certificate for {course_title}'
         message = render_to_string('emails/certificate_email.html', {
             'user': enrollment.student,
             'course': enrollment.course
@@ -183,9 +171,12 @@ def generate_certificate(enrollment_id):
                 'application/pdf'
             )]
         )
+        print(f"Sent certificate email to {enrollment.student.email}")
 
     except Enrollment.DoesNotExist:
-        pass
+        print(f"Enrollment with ID {enrollment_id} does not exist.")
+    except Exception as e:
+        print(f"Error generating certificate for enrollment {enrollment_id}: {e}")
 
 
 @shared_task
