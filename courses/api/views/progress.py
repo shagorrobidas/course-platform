@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from courses.models import Progress, Enrollment, Lesson
+from courses.models import Progress, Enrollment, Lesson, Certificate
 from courses.api.serializers import ProgressSerializer
 from core.tasks import generate_certificate
 from rest_framework.decorators import api_view, permission_classes
@@ -29,26 +29,37 @@ class ProgressUpdateView(generics.UpdateAPIView):
         instance.save()
 
         # Check if course is completed
-        enrollment = Enrollment.objects.get(
-            student=request.user, 
-            course=instance.lesson.module.course
-        )
-
-        if not enrollment.completed:
-            total_lessons = Lesson.objects.filter(
-                module__course=enrollment.course
-            ).count()
-            completed_lessons = Progress.objects.filter(
+        try:
+            enrollment = Enrollment.objects.get(
                 student=request.user,
-                lesson__module__course=enrollment.course,
-                completed=True
-            ).count()
-            if completed_lessons == total_lessons:
-                enrollment.completed = True
-                enrollment.save()
+                course=instance.lesson.module.course
+            )
 
-                # Trigger certificate generation
-                generate_certificate.delay(enrollment.id)
+            if enrollment.completed:
+                total_lessons = Lesson.objects.filter(
+                    module__course=enrollment.course
+                ).count()
+                
+                completed_lessons = Progress.objects.filter(
+                    student=request.user,
+                    lesson__module__course=enrollment.course,
+                    completed=True
+                ).count()
+                
+                if completed_lessons == total_lessons:
+                    # Check if certificate already exists before creating
+                    if not hasattr(enrollment, 'certificate'):
+                        Certificate.objects.create(enrollment=enrollment)
+                        print("Certificate created.")
+                        
+                        # Trigger certificate generation
+                        generate_certificate.delay(enrollment.id)
+                        print("Certificate generation task triggered.")
+                    else:
+                        print("Certificate already exists for this enrollment.")
+
+        except Enrollment.DoesNotExist:
+            print("Enrollment not found for this course and user.")
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
