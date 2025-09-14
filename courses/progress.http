@@ -1,0 +1,99 @@
+@baseUrl = http://localhost:8000/api/v1/course
+@contentType = application/json
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3ODg1ODU0LCJpYXQiOjE3NTc3OTk0NTQsImp0aSI6IjhlZTY3YWZlNTUwODRhYTdiNzg4YmU2MGJlNTA3NzA4IiwidXNlcl9pZCI6IjQwIn0.uSGEtpWhvJLtPOcgvqn4E9mhql55UTfJ2iOouD702BQ
+
+### 1. Get all progress records
+GET {{baseUrl}}/progress/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 2. Get progress filtered by course
+GET {{baseUrl}}/progress/?course_id=1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 3. Get progress filtered by module
+GET {{baseUrl}}/progress/?module_id=1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 4. Get completed progress only
+GET {{baseUrl}}/progress/?completed=true
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 5. Get incomplete progress only
+GET {{baseUrl}}/progress/?completed=false
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 6. Search progress by lesson title
+GET {{baseUrl}}/progress/?search=django
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 7. Order by time spent
+GET {{baseUrl}}/progress/?ordering=time_spent
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 8. Order by completion date (descending)
+GET {{baseUrl}}/progress/?ordering=-completed_at
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 9. Create progress record
+POST {{baseUrl}}/progress/create/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "lesson": 4,
+    "completed": true,
+    "time_spent": 3600
+}
+
+### 10. Bulk update progress records
+POST {{baseUrl}}/progress/bulk-update/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "progress": [
+        {
+        "lesson": 1,
+        "completed": true,
+        "time_spent": 3600
+        },
+        {
+        "lesson": 2,
+        "completed": false,
+        "time_spent": 1800
+        }
+    ]
+}
+
+### 11. Get progress statistics
+GET {{baseUrl}}/progress/stats/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 12. Get specific progress record
+GET {{baseUrl}}/progress/4/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+### 13. Update progress record
+PUT {{baseUrl}}/progress/1/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "completed": true,
+  "time_spent": 4200
+}
+
+### 14. Delete progress record
+DELETE {{baseUrl}}/progress/1/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
