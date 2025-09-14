@@ -1,26 +1,26 @@
 @baseUrl = http://localhost:8000/api/v1/course
 @loginUrl = http://localhost:8000/api/v1/auth
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjM0NjEzLCJpYXQiOjE3NTc2MzEwMTMsImp0aSI6IjEzNzk5ZTk3YzEzOTRkYmViYTcyZjhkNjk2MjhlNDZkIiwidXNlcl9pZCI6IjM5In0.IQAunMc7TEnu9khonUNa5qRhyVHwQG59ASK5-v7OlOg
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NzkxNzUwLCJpYXQiOjE3NTc3ODgxNTAsImp0aSI6Ijc2YjAzZGM3MGM4ODQ0ZTc4ZjA5YjIwMTcyMWM4NTg3IiwidXNlcl9pZCI6IjM1In0.D658VLTIJW8j5VtCyb0rOLTFdn9tAWJouIOrLt0FSiQ
 
 # @name login
 POST {{loginUrl}}/login/
 Content-Type: {{contentType}}
 
-# {
-#     "email": "teacher@example.com",
-#     "password": "password123"
-# }
+{
+    "email": "teacher@example.com",
+    "password": "password123"
+}
 
 # {
 #     "email": "vetejof231@dpwev.com",
 #     "password": "password123"
 # }
 
-{
-    "email": "liwor62759@dextrago.com",
-    "password": "password123"
-}
+# {
+#     "email": "liwor62759@dextrago.com",
+#     "password": "password123"
+# }
 
 
 ### 1. Get all categories
@@ -121,7 +121,7 @@ Content-Type: {{contentType}}
 
 
 {
-    "student": 39,
+    "student": 40,
     "course": 7
 }
 
@@ -131,19 +131,34 @@ GET {{baseUrl}}/enrollments/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
+### 9. Update progress (mark lesson as completed) (requires authentication)
+# @name progressUpdate
+PATCH {{baseUrl}}/progress/1/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "completed": true
+}
+
 ### 9. Get course modules (requires authentication)import json
 
 GET {{baseUrl}}/1/modules/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
-> {%
-    client.log("Modules response: " + JSON.stringify(response.body));
-    if (response.body && response.body.length > 0) {
-        client.global.set("module_id", response.body[0].id);
-        client.global.set("module_title", response.body[0].title);
-    }
-%}
+
+
+### 10. Create a new module (requires authentication)
+
+POST {{baseUrl}}/1/modules/create/
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+{
+    "title": "New Module Title",
+    "description": "Description of the new module",
+    "order": 1
+}
 
 ### 10. Get lesson details (requires authentication)
 GET {{baseUrl}}/lessons/2/
@@ -159,15 +174,22 @@ Content-Type: {{contentType}}
 %}
 
 
-### 11. Update progress (mark lesson as completed) (requires authentication)
-# @name progressUpdate
-PATCH {{baseUrl}}/progress/1/
+### 11. Create a new lesson (requires authentication)
+POST {{baseUrl}}/1/lessons/create/
 Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
-{
-    "completed": true
+
+{   
+    "module": 2,
+    "title": "New Lesson Title",
+    "content": "Content of the new lesson",
+    "video_url": "http://example.com/video.mp4",
+    "duration": 15,
+    "order": 1
 }
+
+
 
 
 
@@ -197,7 +219,7 @@ Content-Type: {{contentType}}
 {
     "student": 28,
     "course": 1
-
+}
 ### 15. Test accessing modules without enrollment (should fail)
 GET {{baseUrl}}/999/modules/
 Authorization: Bearer {{authToken}}
