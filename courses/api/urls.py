@@ -18,13 +18,30 @@ from .views.enrollment import (
     EnrollmentCreateView,
     EnrollmentListView
 )
-from .views import ModuleListView
-from .views.lesson import LessonDetailView
+from .views import (
+    ModuleListView,
+    CourseModuleCreateView,
+    ModuleUpdateView,
+    ModuleDeleteView
+)
+from .views.lesson import (
+    LessonDetailView,
+    LessonCreateView,
+    LessonUpdateView,
+    LessonDeleteView
+)
 from .views.progress import (
     ProgressUpdateView,
     student_progress_report
 )
 
+from .views.progress_view import (
+    ProgressListView,
+    ProgressCreateView,
+    ProgressDetailView,
+    ProgressBulkUpdateView,
+    progress_stats
+)
 urlpatterns = [
     path(
         'categories/',
@@ -98,9 +115,39 @@ urlpatterns = [
         name='module_list'
     ),
     path(
+        '<int:course_id>/modules/create/',
+        CourseModuleCreateView.as_view(),
+        name='module_create'
+    ),
+    path(
+        'modules/<int:pk>/update/',
+        ModuleUpdateView.as_view(),
+        name='module_update'
+    ),
+    path(
+        'modules/<int:pk>/delete/',
+        ModuleDeleteView.as_view(),
+        name='module_delete'
+    ),
+    path(
         'lessons/<int:pk>/',
         LessonDetailView.as_view(),
         name='lesson_detail'
+    ),
+    path(
+        '<int:module_id>/lessons/create/',
+        LessonCreateView.as_view(),
+        name='lesson_create'
+    ),
+    path(
+        'lessons/<int:pk>/update/',
+        LessonUpdateView.as_view(),
+        name='lesson_update'
+    ),
+    path(
+        'lessons/<int:pk>/delete/',
+        LessonDeleteView.as_view(),
+        name='lesson_delete'
     ),
     path(
         'progress/<int:pk>/',
@@ -112,4 +159,30 @@ urlpatterns = [
         student_progress_report,
         name='progress_report'
     ),
+    path(
+        'progress/',
+        ProgressListView.as_view(),
+        name='progress-list'
+    ),
+    path(
+        'progress/create/',
+        ProgressCreateView.as_view(),
+        name='progress-create'
+    ),
+    path(
+        'progress/bulk-update/',
+        ProgressBulkUpdateView.as_view(),
+        name='progress-bulk-update'
+    ),
+    path(
+        'progress/<int:pk>/',
+        ProgressDetailView.as_view(),
+        name='progress-detail'
+    ),
+    path(
+        'progress/stats/',
+        progress_stats,
+        name='progress-stats'
+    ),
+
 ]
