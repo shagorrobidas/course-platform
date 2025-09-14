@@ -52,4 +52,4 @@ class ProgressAdmin(admin.ModelAdmin):
     list_display = ('id', 'student', 'lesson', 'completed', 'last_accessed')
     search_fields = ('student__username', 'lesson__title')
     list_filter = ('completed', 'last_accessed')
-    ordering = ('student', 'lesson')
+    ordering = ('id',)
