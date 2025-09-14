@@ -17,11 +17,27 @@ from .enrollment import (
     EnrollmentCreateView,
     EnrollmentListView
 )
-from .lesson import LessonDetailView
-from .module import ModuleListView
+from .lesson import (
+    LessonDetailView,
+    LessonCreateView,
+    LessonUpdateView,
+    LessonDeleteView
+)
+from .module import (
+    ModuleListView,
+    CourseModuleCreateView,
+    ModuleUpdateView,
+    ModuleDeleteView
+)
 from .progress import (
     ProgressUpdateView,
     student_progress_report
+)
+from .progress_view import (
+    ProgressListView,
+    ProgressCreateView,
+    ProgressDetailView,
+    ProgressBulkUpdateView
 )
 
 
@@ -40,8 +56,18 @@ __all__ = (
     EnrollmentCreateView,
     EnrollmentListView,
     LessonDetailView,
+    LessonCreateView,
+    LessonUpdateView,
+    LessonDeleteView,
     ModuleListView,
+    CourseModuleCreateView,
+    ModuleUpdateView,
+    ModuleDeleteView,
     ProgressUpdateView,
-    student_progress_report
+    student_progress_report,
+    ProgressListView,
+    ProgressCreateView,
+    ProgressDetailView,
+    ProgressBulkUpdateView
 
 )
