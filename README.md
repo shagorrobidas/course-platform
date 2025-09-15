@@ -63,7 +63,7 @@
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
-```
+    ```
 
 6. **Run development server**
     ```
@@ -79,5 +79,39 @@
     redis-server
     ```
 
+## Project Structure
+
+    ```
+        course_platform/
+        ├── core/          # Main project
+        │   ├── settings/
+        │   │   ├── base.py          # Base settings
+        │   │   ├── production.py    # Production config
+        │   │   └── development.py   # Development config
+        │   ├── urls.py              # URL routing
+        │   └── asgi.py              # ASGI config
+        ├── users/                   # Authentication app
+        │   ├── models.py           # User model
+        │   ├── serializers.py      # User serializers
+        │   ├── views.py           # Auth views
+        │   └── urls.py            # Auth endpoints
+        ├── courses/                # Courses app
+        │   ├── models.py          # Course models
+        │   ├── serializers.py     # Course serializers
+        │   ├── views.py          # Course views
+        │   └── urls.py           # Course endpoints
+        ├── notifications/         # WebSocket app
+        │   ├── consumers.py      # WebSocket handlers
+        │   └── routing.py        # WebSocket routes
+        ├── core/                  # Core utilities
+        │   ├── tasks.py          # Celery tasks
+        │   └── utils.py          # Helper functions
+        ├── static/               # Static files
+        ├── templates/            # Email templates
+        ├── build.sh             # Build script
+        ├── render.yaml          # Render config
+        ├── requirements.txt     # Dependencies
+        └── runtime.txt          # Python version
+    ```
 
 
