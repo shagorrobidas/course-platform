@@ -5,7 +5,8 @@ from .models import (
     Enrollment,
     Module,
     Lesson,
-    Progress
+    Progress,
+    Certificate
 )
 
 
@@ -41,7 +42,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'module')
+    list_display = ('id', 'title', 'module', 'duration')
     search_fields = ('title', 'module__title')
     list_filter = ('module',)
     ordering = ('module', 'title')
@@ -52,4 +53,12 @@ class ProgressAdmin(admin.ModelAdmin):
     list_display = ('id', 'student', 'lesson', 'completed', 'last_accessed')
     search_fields = ('student__username', 'lesson__title')
     list_filter = ('completed', 'last_accessed')
+    ordering = ('id',)
+
+
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ('id', 'enrollment', 'certificate_id', 'issued_at')
+    search_fields = ('enrollment__student__username', 'certificate_id')
+    list_filter = ('issued_at',)
     ordering = ('id',)

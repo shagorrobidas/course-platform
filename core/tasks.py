@@ -109,6 +109,7 @@ The Course Platform Team
 @shared_task
 def generate_certificate(enrollment_id):
     try:
+        print(f"Generating certificate for enrollment ID: {enrollment_id}")
         enrollment = Enrollment.objects.get(id=enrollment_id)
         print(f"Generating certificate for enrollment: {enrollment}")
 
@@ -149,14 +150,18 @@ def generate_certificate(enrollment_id):
             certificate_file,
             save=True
         )
+        
         print(f"Certificate saved for enrollment {enrollment.id}")
 
         # Send email with certificate
         subject = f'Certificate for {course_title}'
+        print(f"subject: {subject}")
+
         message = render_to_string('emails/certificate_email.html', {
             'user': enrollment.student,
             'course': enrollment.course
         })
+        print(f"massage: {message}")
 
         send_mail(
             subject,
