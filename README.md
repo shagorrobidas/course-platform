@@ -125,3 +125,14 @@ https://127.0.0.1:800/api/v1/course/
 
 All auth endpoints are prefixed with: /api/v1/auth/
 
+**Method	Endpoint	Description	Authentication**
+ POST	/register/	User registration	None
+ POST	/login/	User login	None
+ POST	/logout/	User logout	JWT Required
+ POST	/request-otp/	Request OTP for verification	None
+ POST	/verify-otp/	Verify OTP code	None
+ POST	/change-password/	Change password	JWT Required
+ POST	/reset-password/	Request password reset	None
+ GET	    /profile/	Get user profile	JWT Required
+
+
