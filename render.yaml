@@ -1,73 +1,75 @@
-databases:
-  - name: course-platform-db
-    plan: free
-
+# render.yaml
 services:
-  # Django Web Service
-  - type: web
-    name: course-platform-web
-    env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      python manage.py migrate
-      python manage.py collectstatic --noinput
-    startCommand: daphne -b 0.0.0.0 -p $PORT core.asgi:application
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
-      - key: SECRET_KEY
-        generateValue: true
-      - key: DEBUG
-        value: "False"
-      - key: DATABASE_URL
-        fromDatabase:
-          name: course-platform-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: course-platform-redis
-          type: redis
-          property: connectionString
-
-  # Celery Worker
-  - type: worker
-    name: course-platform-worker
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A core worker -l info
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
-      - key: DATABASE_URL
-        fromDatabase:
-          name: course-platform-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: course-platform-redis
-          type: redis
-          property: connectionString
-
-  # Celery Beat
-  - type: worker
-    name: course-platform-beat
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A core beat -l info
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
-      - key: DATABASE_URL
-        fromDatabase:
-          name: course-platform-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: course-platform-redis
-          type: redis
-          property: connectionString
-
-  # Redis for Channels + Celery
   - type: redis
-    name: course-platform-redis
+    name: chalary-redis
     plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList: []  # allows all services to connect
+
+databases:
+  - name: chalary-db
+    databaseName: chalary_db
+    user: chalary_user
+    plan: free
+
+  - type: web
+    name: chalary-web
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn core.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        value: "v+ljbc)ejb$-_y8lhjn#$%zdzuuyn(_d$b0jyuf0xy%q5x_*&8"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chalary-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: chalary-redis
+          property: connectionString
+      - key: RENDER
+        value: "true"
+
+  - type: worker
+    name: chalary-worker
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "celery -A core worker -l info --concurrency=4"
+    envVars:
+      - key: SECRET_KEY
+        value: "v+ljbc)ejb$-_y8lhjn#$%zdzuuyn(_d$b0jyuf0xy%q5x_*&8"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chalary-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: chalary-redis
+          property: connectionString
+
+  - type: worker
+    name: chalary-beat
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    envVars:
+      - key: SECRET_KEY
+        value: "your-long-secret-key-here"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chalary-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: chalary-redis
+          property: connectionString
