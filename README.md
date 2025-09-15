@@ -33,3 +33,7 @@
 
 ## Quick Start
 1. **Clone the repository**
+    ```
+    git clone https://github.com/yourusername/course-platform.git
+    cd course-platform
+    ```
