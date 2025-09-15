@@ -37,3 +37,44 @@
     git clone https://github.com/yourusername/course-platform.git
     cd course-platform
     ```
+
+2. **Create virtual environment**
+    ```
+    python -m venv venv
+    source venv/bin/activate  # Linux/Mac
+    # or
+    venv\Scripts\activate     # Windows
+
+    ```
+
+3. **Install dependencies**
+    ```
+    pip install -r requirements.txt
+    ```
+
+4. **Environment setup**
+    ```
+    cp .env.example .env
+    # Edit .env with your configuration
+    ```
+
+5. **Database setup**
+    ```
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+   ```
+
+6. **Run development server**
+    ```
+    python manage.py runserver
+    ```
+
+7. Start Celery worker (new terminal)
+    ```
+    celery -A course_platform worker --loglevel=info
+    ```
+8. Start Redis (required for Celery)
+    ```
+    redis-server
+    ```
