@@ -4,12 +4,12 @@ databases:
     user: chalary_user
     plan: free
 
-keyvalue:
-  - name: chalary-redis
+services:
+  - type: redis
+    name: chalary-redis
     plan: free
     maxmemoryPolicy: noeviction
 
-services:
   - type: web
     name: chalary-web
     env: python
