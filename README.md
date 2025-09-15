@@ -117,9 +117,9 @@
 ## API Endpoints
 
 ### Base URL
-    ```
-        https://127.0.0.1:800/api/v1/course/
-    ```
+```
+https://127.0.0.1:800/api/v1/course/
+```
 
 ### Authentication Endpoints
 
