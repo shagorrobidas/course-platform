@@ -30,3 +30,6 @@
 - PostgreSQL 13+
 - Redis 6+
 - AWS Account (for S3 storage)
+
+## Quick Start
+1. **Clone the repository**
