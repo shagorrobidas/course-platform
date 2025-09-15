@@ -1,16 +1,3 @@
-databases:
-  - name: chalary-db
-    databaseName: chalary_db
-    user: chalary_user
-    plan: free
-
-services:
-  - type: redis
-    name: chalary-redis
-    plan: free
-    maxmemoryPolicy: noeviction
-    ipAllowList: []
-
   - type: web
     name: chalary-web
     env: python
@@ -20,7 +7,7 @@ services:
     startCommand: gunicorn core.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
-        generateValue: true   # ✅ only here
+        generateValue: true   # generate once here
       - key: DATABASE_URL
         fromDatabase:
           name: chalary-db
@@ -30,8 +17,6 @@ services:
           type: redis
           name: chalary-redis
           property: connectionString
-      - key: DEBUG
-        value: "false"
 
   - type: worker
     name: chalary-worker
@@ -42,10 +27,7 @@ services:
     startCommand: celery -A core worker -l info --concurrency=4
     envVars:
       - key: SECRET_KEY
-        fromService:
-          type: web
-          name: chalary-web
-          property: envVars.SECRET_KEY   # ✅ inherit from web
+        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match
       - key: DATABASE_URL
         fromDatabase:
           name: chalary-db
@@ -55,8 +37,6 @@ services:
           type: redis
           name: chalary-redis
           property: connectionString
-      - key: DEBUG
-        value: "false"
 
   - type: worker
     name: chalary-beat
@@ -67,10 +47,7 @@ services:
     startCommand: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     envVars:
       - key: SECRET_KEY
-        fromService:
-          type: web
-          name: chalary-web
-          property: envVars.SECRET_KEY   # ✅ inherit from web
+        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match
       - key: DATABASE_URL
         fromDatabase:
           name: chalary-db
@@ -80,5 +57,3 @@ services:
           type: redis
           name: chalary-redis
           property: connectionString
-      - key: DEBUG
-        value: "false"
