@@ -1,3 +1,16 @@
+databases:
+  - name: chalary-db
+    databaseName: chalary_db
+    user: chalary_user
+    plan: free
+
+services:
+  - type: redis
+    name: chalary-redis
+    plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
   - type: web
     name: chalary-web
     env: python
@@ -27,7 +40,7 @@
     startCommand: celery -A core worker -l info --concurrency=4
     envVars:
       - key: SECRET_KEY
-        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match
+        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match web
       - key: DATABASE_URL
         fromDatabase:
           name: chalary-db
@@ -47,7 +60,7 @@
     startCommand: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     envVars:
       - key: SECRET_KEY
-        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match
+        value: "django-insecure-7_3^kgpx%2)kc14#(rpdc*z=_9mmwb!i5*kyhas(-=air#i^1+"   # must match web
       - key: DATABASE_URL
         fromDatabase:
           name: chalary-db
