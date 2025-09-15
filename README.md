@@ -114,4 +114,14 @@
     └── runtime.txt          # Python version
 
 
+## API Endpoints
+
+### Base URL
+    ```
+    https://127.0.0.1:800/api/v1/course/
+    ```
+
+### Authentication Endpoints
+
+All auth endpoints are prefixed with: /api/v1/auth/
 
