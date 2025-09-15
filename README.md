@@ -32,13 +32,15 @@
 - AWS Account (for S3 storage)
 
 ## Quick Start
+
 1. **Clone the repository**
+   
     ```
     git clone https://github.com/yourusername/course-platform.git
     cd course-platform
     ```
 
-2. **Create virtual environment**
+3. **Create virtual environment**
     ```
     python -m venv venv
     source venv/bin/activate  # Linux/Mac
@@ -47,34 +49,34 @@
 
     ```
 
-3. **Install dependencies**
+4. **Install dependencies**
     ```
     pip install -r requirements.txt
     ```
 
-4. **Environment setup**
+5. **Environment setup**
     ```
     cp .env.example .env
     # Edit .env with your configuration
     ```
 
-5. **Database setup**
+6. **Database setup**
     ```
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
    ```
 
-6. **Run development server**
+7. **Run development server**
     ```
     python manage.py runserver
     ```
 
-7. Start Celery worker (new terminal)
+8. Start Celery worker (new terminal)
     ```
     celery -A course_platform worker --loglevel=info
     ```
-8. Start Redis (required for Celery)
+9. Start Redis (required for Celery)
     ```
     redis-server
     ```
